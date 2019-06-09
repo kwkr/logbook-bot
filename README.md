@@ -6,6 +6,8 @@ to run it:
 `npm i`
 `npm run fill`
 
+You can find source data format in `toFill.json` file. The bot will use it to fill weekly view (only current week) with the projects and corresponding task with the data from file. Objects in `hours:[...]` corresponds to subsequent days of the week (0 for monday, 1 for tuesday etc.). Each of them contains information about how much time to fill (`time:"2:00"`) and how to comment it (`comment:"I was doing nothing"`).
+
 For tracking your time while at work you can use my other tool:
 
 [LogBook](http://logbook.com.s3-website.eu-central-1.amazonaws.com/)
