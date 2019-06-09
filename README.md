@@ -2,6 +2,10 @@
 
 Bot for filling my logbook in Projektron.
 
+to run it:
+`npm i`
+`npm run fill`
+
 For tracking your time while at work you can use my other tool:
 
 [LogBook](http://logbook.com.s3-website.eu-central-1.amazonaws.com/)
