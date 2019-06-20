@@ -1,0 +1,24 @@
+[
+  {
+    "project": "Interne Tätigkeiten",
+    "task": "Allgemeines",
+    "hours": [
+      { "comment": "test1", "time": "0:00" },
+      { "comment": "test2", "time": "0:00" },
+      { "comment": "test3", "time": "0:00" },
+      { "comment": "test4", "time": "0:00" },
+      { "comment": "test5", "time": "0:00" }
+    ]
+  },
+  {
+    "project": "agile Teams",
+    "task": "ITeam Mitarbeiter Skills",
+    "hours": [
+      { "comment": "test12", "time": "0:00" },
+      { "comment": "test23", "time": "0:00" },
+      { "comment": "test34", "time": "0:00" },
+      { "comment": "test45", "time": "0:00" },
+      { "comment": "test56", "time": "0:00" }
+    ]
+  }
+]
