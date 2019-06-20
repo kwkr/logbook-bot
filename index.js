@@ -51,6 +51,8 @@ async function run() {
   await page.click('input[data-bcs-button-name="Apply"]');
   await page.waitFor(2000);
   await browser.close();
+  console.log('Done!');
+  process.exit();
 }
 
 async function performLogin(page) {
