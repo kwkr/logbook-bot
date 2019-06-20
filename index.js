@@ -1,32 +1,43 @@
 require('dotenv').config();
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 const puppeteer = require('puppeteer');
 const delayObject = { delay: 20 };
+let PROJEKTRON_LINK;
+let PROJEKTRON_USER;
+let PROJEKTRON_PWD;
 const tableSelector =
   'table[class=" list fixableTableHeader_jq ListDisplay sizable orderable"] > tbody';
 
 let toSave;
-try {
-  toSave = require('./export.json');
-  if (!Array.isArray(toSave)) {
-    console.log('Converting from Logbook.com format');
-    toSave = convertFromLogminionFormat(toSave);
-  }
-} catch (e) {
-  console.log(e);
-}
-if (!toSave || toSave.length === 0) {
-  console.log('No data to book. Exiting...');
-  process.exit();
-}
 
 async function run() {
+  await checkEnvVariables();
+
+  try {
+    toSave = require('./export.json');
+    if (!Array.isArray(toSave)) {
+      console.log('Converting from Logbook.com format');
+      toSave = convertFromLogminionFormat(toSave);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  if (!toSave || toSave.length === 0) {
+    console.log('No data to book. Exiting...');
+    process.exit();
+  }
   const browser = await puppeteer.launch({
     headless: false
   });
 
   const page = (await browser.pages())[0];
 
-  await page.goto(process.env.PROJEKTRON_LINK);
+  await page.goto(PROJEKTRON_LINK);
 
   await performLogin(page);
   await dismissNotificationDialog(page);
@@ -44,10 +55,10 @@ async function run() {
 
 async function performLogin(page) {
   await page.waitForSelector('input[id=label_user]');
-  await page.type('input[id=label_user]', process.env.PROJEKTRON_USER, {
+  await page.type('input[id=label_user]', PROJEKTRON_USER, {
     delay: 10
   });
-  await page.type('input[id=label_pwd]', process.env.PROJEKTRON_PWD, {
+  await page.type('input[id=label_pwd]', PROJEKTRON_PWD, {
     delay: 10
   });
   await page.click('input[type=submit]');
@@ -357,6 +368,66 @@ function getSummaryDescription(logs) {
     summary += log.description + ', ';
   });
   return summary;
+}
+
+async function checkEnvVariables() {
+  let disrupted = false;
+  if (!process.env.PROJEKTRON_LINK || process.env.PROJEKTRON_LINK === '') {
+    console.error('Missing PROJEKTRON_LINK env variable');
+    disrupted = true;
+  } else {
+    PROJEKTRON_LINK = process.env.PROJEKTRON_LINK;
+  }
+  if (!process.env.PROJEKTRON_USER || process.env.PROJEKTRON_USER === '') {
+    console.error('Missing PROJEKTRON_USER env variable');
+    disrupted = true;
+  } else {
+    PROJEKTRON_USER = process.env.PROJEKTRON_USER;
+  }
+  if (!process.env.PROJEKTRON_PWD || process.env.PROJEKTRON_PWD === '') {
+    console.error('Missing PROJEKTRON_PWD env variable');
+    disrupted = true;
+  } else {
+    PROJEKTRON_PWD = process.env.PROJEKTRON_PWD;
+  }
+  if (disrupted) {
+    console.error(
+      'Missing ENV configuration. Enter values or set ENV variables first.'
+    );
+
+    let linkInput = await getInput('Give your Projektron link: ');
+    if (!isEmpty(linkInput)) {
+      PROJEKTRON_LINK = linkInput.trim();
+    }
+    let usernameInput = await getInput(
+      'Give your Projektron username(or email): '
+    );
+    if (!isEmpty(usernameInput)) {
+      PROJEKTRON_USER = usernameInput.trim();
+    }
+    let passwordInput = await getInput('Give your Projektron password: ');
+    if (!isEmpty(passwordInput)) {
+      PROJEKTRON_PWD = passwordInput.trim();
+    }
+    rl.close();
+
+    if (
+      isEmpty(PROJEKTRON_LINK) ||
+      isEmpty(PROJEKTRON_USER) ||
+      isEmpty(PROJEKTRON_PWD)
+    ) {
+      console.error('Invalid configuration. Try again...');
+      process.exit();
+    }
+  }
+}
+
+function getInput(question) {
+  return new Promise(resolve => {
+    rl.question(question, answer => {
+      resolve(answer);
+    });
+  });
 }
 
 run();
