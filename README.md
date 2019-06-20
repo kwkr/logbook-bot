@@ -23,4 +23,6 @@ For tracking your time while at work you can use my other tool:
 It allows yout to seamlessly track your activities and then export it as json.
 Perfect input for this kind of bot!
 
-You can export your log data from there and use it as an input for this bot. It will be converted automatically. Just swap `export.json` files in the project root. Currenlty only logs for current week will be filled.
+You can export your log data from there and use it as an input for this bot. It will be converted automatically if it has correct format. The format is `<Projekt>|<Aufgabe>`. Note the `|` (pipe) for separation. For example, for the logs to be converted, you have to have a task `Interne Tätigkeiten | Allgemeines` in [LogMinion](https://logminion.com).
+
+Then just swap `export.json` files in the project root. Currenlty only logs for current week will be filled.
