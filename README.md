@@ -10,7 +10,7 @@ You can find source data format in `export.json` file. The bot will use it to fi
 
 For tracking your time while at work you can use my other tool:
 
-[LogMinion](logminion.com)
+[LogMinion](https://logminion.com)
 
 It allows yout to seamlessly track your activities and then export it as json.
 Perfect input for this kind of bot!
