@@ -47,7 +47,6 @@ async function run() {
   await fillWeek(page, rowInfo);
   await page.waitFor(100);
   await page.waitForSelector('input[data-bcs-button-name="Apply"]');
-  //uncomment to save
   await page.click('input[data-bcs-button-name="Apply"]');
   await page.waitFor(2000);
   await browser.close();
