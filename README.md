@@ -1,6 +1,6 @@
 # logbook-bot
 
-Bot for filling my logbook in Projektron.
+Bot for filling my logbook in Projektron. Currently build with [Puppeteer](https://github.com/GoogleChrome/puppeteer) so [Chrome](https://www.google.com/intl/en/chrome) is requried.
 
 to run it:
 `npm i`
